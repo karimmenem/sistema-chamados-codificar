@@ -4,6 +4,7 @@ import {
   getTickets,
   getTicket,
   updateTicket,
+  deleteTicket
 } from "../controllers/tickets.js";
 
 
@@ -13,5 +14,6 @@ router.post("/", createTicket);
 router.get("/", getTickets);
 router.get("/:id", getTicket);
 router.put("/:id", updateTicket);
+router.delete("/:id", deleteTicket);
 
 export default router;

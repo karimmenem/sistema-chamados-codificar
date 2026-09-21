@@ -203,3 +203,41 @@ export async function updateTicket(req: Request, res: Response) {
     });
   }
 }
+
+export async function deleteTicket(req: Request, res: Response) {
+  try {
+    const ticketId = Number(req.params.id);
+
+    if (Number.isNaN(ticketId)) {
+      return res.status(400).json({
+        error: "Invalid ticket ID.",
+      });
+    }
+
+    const existingTicket = await prisma.ticket.findUnique({
+      where: {
+        id: ticketId,
+      },
+    });
+
+    if (!existingTicket) {
+      return res.status(404).json({
+        error: "Ticket not found.",
+      });
+    }
+
+    await prisma.ticket.delete({
+      where: {
+        id: ticketId,
+      },
+    });
+
+    return res.status(204).send();
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      error: "Failed to delete ticket.",
+    });
+  }
+}
