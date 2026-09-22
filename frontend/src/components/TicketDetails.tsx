@@ -131,24 +131,63 @@ function TicketDetails() {
   }
 
   return (
-    <Paper sx={{ p: 3 }}>
-      <Box sx={{ display: "flex", gap: 1, mb: 3 }}>
-        <Button variant="outlined" onClick={() => navigate("/")}>
-          {t("tickets.backToList")}
-        </Button>
+    <Paper
+      elevation={0}
+      sx={{
+        p: 4,
+        border: "1px solid",
+        borderColor: "divider",
+        borderRadius: 2,
+      }}
+    >
+      <Box
+  sx={{
+    display: "flex",
+    flexDirection: { xs: "column", sm: "row" },
+    justifyContent: "space-between",
+    alignItems: { xs: "stretch", sm: "center" },
+    gap: 2,
+    mb: 3,
+  }}
+>
+  <Button
+    variant="outlined"
+    onClick={() => navigate("/")}
+    sx={{
+      alignSelf: { xs: "flex-start", sm: "auto" },
+      whiteSpace: "nowrap",
+    }}
+  >
+    {t("tickets.backToList")}
+  </Button>
 
-        <Button
-          variant="contained"
-          onClick={() => setEditing(true)}
-          disabled={deleting}
-        >
-          {t("tickets.edit")}
-        </Button>
+  <Box
+    sx={{
+      display: "flex",
+      gap: 1,
+      width: { xs: "100%", sm: "auto" },
+    }}
+  >
+    <Button
+      variant="contained"
+      onClick={() => setEditing(true)}
+      disabled={deleting}
+      sx={{ flex: { xs: 1, sm: "initial" } }}
+    >
+      {t("tickets.edit")}
+    </Button>
 
-        <Button variant="outlined" onClick={handleDelete} disabled={deleting}>
-          {deleting ? t("tickets.deleting") : t("tickets.delete")}
-        </Button>
-      </Box>
+    <Button
+      variant="outlined"
+      color="error"
+      onClick={handleDelete}
+      disabled={deleting}
+      sx={{ flex: { xs: 1, sm: "initial" } }}
+    >
+      {deleting ? t("tickets.deleting") : t("tickets.delete")}
+    </Button>
+  </Box>
+</Box>
 
       {editing ? (
         <Box>
@@ -231,29 +270,152 @@ function TicketDetails() {
         </Box>
       ) : (
         <>
-          <Typography variant="h5" component="h1" sx={{ mb: 2 }}>
+          <Typography
+            variant="h5"
+            component="h1"
+            sx={{
+              fontWeight: 700,
+              mb: 3,
+            }}
+          >
             {ticket.title}
           </Typography>
 
-          <Typography sx={{ mb: 3 }}>{ticket.description}</Typography>
+          <Box
+            sx={{
+              p: 2,
+              mb: 3,
+              backgroundColor: "grey.50",
+              borderRadius: 2,
+              border: "1px solid",
+              borderColor: "divider",
+            }}
+          >
+            <Typography
+              variant="subtitle2"
+              color="text.secondary"
+              sx={{ mb: 1 }}
+            >
+              {t("tickets.fields.description")}
+            </Typography>
 
-          <Typography>
-            {t("tickets.status")}: {t(`tickets.statuses.${ticket.status}`)}
-          </Typography>
+            <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>
+              {ticket.description}
+            </Typography>
+          </Box>
 
-          <Typography>
-            {t("tickets.priority")}:{" "}
-            {t(`tickets.priorities.${ticket.priority}`)}
-          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 3,
+              mb: 3,
+            }}
+          >
+            <Box>
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                sx={{ display: "block", mb: 0.5 }}
+              >
+                {t("tickets.status")}
+              </Typography>
 
-          <Typography>
-            {t("tickets.responsible")}: {ticket.assignedTo.name}
-          </Typography>
+              <Box
+                component="span"
+                sx={{
+                  display: "inline-block",
+                  px: 1.5,
+                  py: 0.75,
+                  borderRadius: 1,
+                  fontSize: "0.9rem",
+                  fontWeight: 600,
+                  backgroundColor:
+                    ticket.status === "OPEN"
+                      ? "#e3f2fd"
+                      : ticket.status === "IN_PROGRESS"
+                        ? "#fff8e1"
+                        : ticket.status === "RESOLVED"
+                          ? "#e8f5e9"
+                          : "#eeeeee",
+                  color:
+                    ticket.status === "OPEN"
+                      ? "#1565c0"
+                      : ticket.status === "IN_PROGRESS"
+                        ? "#f57f17"
+                        : ticket.status === "RESOLVED"
+                          ? "#2e7d32"
+                          : "#616161",
+                }}
+              >
+                {t(`tickets.statuses.${ticket.status}`)}
+              </Box>
+            </Box>
 
-          <Typography sx={{ mt: 1 }}>
-            {t("tickets.created")}:{" "}
-            {new Date(ticket.createdAt).toLocaleString()}
-          </Typography>
+            <Box>
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                sx={{ display: "block", mb: 0.5 }}
+              >
+                {t("tickets.priority")}
+              </Typography>
+
+              <Box
+                component="span"
+                sx={{
+                  display: "inline-block",
+                  px: 1.5,
+                  py: 0.75,
+                  borderRadius: 1,
+                  fontSize: "0.9rem",
+                  fontWeight: 600,
+                  backgroundColor:
+                    ticket.priority === "HIGH"
+                      ? "#ffebee"
+                      : ticket.priority === "MEDIUM"
+                        ? "#fff8e1"
+                        : "#e8f5e9",
+                  color:
+                    ticket.priority === "HIGH"
+                      ? "#c62828"
+                      : ticket.priority === "MEDIUM"
+                        ? "#f57f17"
+                        : "#2e7d32",
+                }}
+              >
+                {t(`tickets.priorities.${ticket.priority}`)}
+              </Box>
+            </Box>
+
+            <Box>
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                sx={{ display: "block", mb: 0.5 }}
+              >
+                {t("tickets.responsible")}
+              </Typography>
+
+              <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                {ticket.assignedTo.name}
+              </Typography>
+            </Box>
+          </Box>
+
+          <Box sx={{ mb: 1 }}>
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ display: "block", mb: 0.5 }}
+            >
+              {t("tickets.created")}
+            </Typography>
+
+            <Typography variant="body1" sx={{ fontWeight: 500 }}>
+              {new Date(ticket.createdAt).toLocaleString()}
+            </Typography>
+          </Box>
         </>
       )}
     </Paper>

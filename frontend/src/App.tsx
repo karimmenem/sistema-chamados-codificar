@@ -25,7 +25,14 @@ function App() {
       <Box sx={{ minHeight: "100vh", backgroundColor: "background.default" }}>
         <AppBar position="static" elevation={0}>
           <Container maxWidth="lg">
-            <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
+            <Toolbar
+              disableGutters
+              sx={{
+                justifyContent: "space-between",
+                gap: 2,
+                py: { xs: 1.5, sm: 1 },
+              }}
+            >
               <Link
                 to="/"
                 style={{
@@ -39,6 +46,8 @@ function App() {
                   sx={{
                     fontWeight: 700,
                     cursor: "pointer",
+                    fontSize: { xs: "1.5rem", sm: "1.25rem" },
+                    whiteSpace: "nowrap",
                   }}
                 >
                   {t("app.title")}
@@ -50,10 +59,11 @@ function App() {
                 onClick={toggleLanguage}
                 sx={{
                   color: "black",
-                  borderColor: "rgba(5, 4, 4, 0.6)",
+                  borderColor: "rgba(11, 10, 10, 0.6)",
                   textTransform: "none",
                   borderRadius: 2,
-                  minWidth: 100,
+                  minWidth: { xs: 110, sm: 100 },
+                  px: { xs: 1.5, sm: 2 },
                   "&:hover": {
                     borderColor: "white",
                     backgroundColor: "rgba(255, 255, 255, 0.08)",

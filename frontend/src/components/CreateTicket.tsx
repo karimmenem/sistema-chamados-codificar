@@ -8,6 +8,7 @@ import {
   Paper,
   TextField,
   Typography,
+  Box,
 } from "@mui/material";
 import type { Priority, SupportPerson } from "../types/ticket";
 import { createTicket, getSupportPeople } from "../api/tickets";
@@ -69,8 +70,23 @@ function CreateTicket() {
   }
 
   return (
-    <Paper sx={{ p: 3 }}>
-      <Typography variant="h5" component="h1" sx={{ mb: 3 }}>
+    <Paper
+      elevation={0}
+      sx={{
+        p: 4,
+        border: "1px solid",
+        borderColor: "divider",
+        borderRadius: 2,
+      }}
+    >
+      <Typography
+        variant="h5"
+        component="h1"
+        sx={{
+          mb: 3,
+          fontWeight: 700,
+        }}
+      >
         {t("tickets.createTitle")}
       </Typography>
 
@@ -98,53 +114,61 @@ function CreateTicket() {
         sx={{ mb: 2 }}
       />
 
-      <TextField
-        fullWidth
-        select
-        label={t("tickets.fields.priority")}
-        value={priority}
-        onChange={(event) => setPriority(event.target.value as Priority)}
-        sx={{ mb: 2 }}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", sm: "row" },
+          gap: 2,
+          mb: 3,
+        }}
       >
-        <MenuItem value="LOW">
-          {t("tickets.priorities.LOW")}
-        </MenuItem>
+        <TextField
+          fullWidth
+          select
+          label={t("tickets.fields.priority")}
+          value={priority}
+          onChange={(event) => setPriority(event.target.value as Priority)}
+        >
+          <MenuItem value="LOW">{t("tickets.priorities.LOW")}</MenuItem>
 
-        <MenuItem value="MEDIUM">
-          {t("tickets.priorities.MEDIUM")}
-        </MenuItem>
+          <MenuItem value="MEDIUM">{t("tickets.priorities.MEDIUM")}</MenuItem>
 
-        <MenuItem value="HIGH">
-          {t("tickets.priorities.HIGH")}
-        </MenuItem>
-      </TextField>
+          <MenuItem value="HIGH">{t("tickets.priorities.HIGH")}</MenuItem>
+        </TextField>
 
-      <TextField
-        fullWidth
-        select
-        label={t("tickets.fields.responsible")}
-        value={assignment}
-        onChange={(event) => setAssignment(event.target.value)}
-        sx={{ mb: 3 }}
-      >
-        <MenuItem value="automatic">
-          {t("tickets.assignment.automatic")}
-        </MenuItem>
-
-        {supportPeople.map((person) => (
-          <MenuItem key={person.id} value={person.id}>
-            {person.name}
+        <TextField
+          fullWidth
+          select
+          label={t("tickets.fields.responsible")}
+          value={assignment}
+          onChange={(event) => setAssignment(event.target.value)}
+        >
+          <MenuItem value="automatic">
+            {t("tickets.assignment.automatic")}
           </MenuItem>
-        ))}
-      </TextField>
 
-      <Button
-        variant="contained"
-        onClick={handleSubmit}
-        disabled={submitting}
-      >
-        {submitting ? t("tickets.creating") : t("tickets.create")}
-      </Button>
+          {supportPeople.map((person) => (
+            <MenuItem key={person.id} value={person.id}>
+              {person.name}
+            </MenuItem>
+          ))}
+        </TextField>
+      </Box>
+
+      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+        <Button
+          variant="contained"
+          onClick={handleSubmit}
+          disabled={submitting}
+          sx={{
+            px: 3,
+            py: 1.2,
+            fontWeight: 600,
+          }}
+        >
+          {submitting ? t("tickets.creating") : t("tickets.create")}
+        </Button>
+      </Box>
     </Paper>
   );
 }
