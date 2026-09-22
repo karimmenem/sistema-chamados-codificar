@@ -123,7 +123,18 @@ function TicketDetails() {
   }
 
   if (loading) {
-    return <CircularProgress />;
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "calc(100vh - 64px)",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
   }
 
   if (error || !ticket) {
@@ -141,53 +152,53 @@ function TicketDetails() {
       }}
     >
       <Box
-  sx={{
-    display: "flex",
-    flexDirection: { xs: "column", sm: "row" },
-    justifyContent: "space-between",
-    alignItems: { xs: "stretch", sm: "center" },
-    gap: 2,
-    mb: 3,
-  }}
->
-  <Button
-    variant="outlined"
-    onClick={() => navigate("/")}
-    sx={{
-      alignSelf: { xs: "flex-start", sm: "auto" },
-      whiteSpace: "nowrap",
-    }}
-  >
-    {t("tickets.backToList")}
-  </Button>
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", sm: "row" },
+          justifyContent: "space-between",
+          alignItems: { xs: "stretch", sm: "center" },
+          gap: 2,
+          mb: 3,
+        }}
+      >
+        <Button
+          variant="outlined"
+          onClick={() => navigate("/")}
+          sx={{
+            alignSelf: { xs: "flex-start", sm: "auto" },
+            whiteSpace: "nowrap",
+          }}
+        >
+          {t("tickets.backToList")}
+        </Button>
 
-  <Box
-    sx={{
-      display: "flex",
-      gap: 1,
-      width: { xs: "100%", sm: "auto" },
-    }}
-  >
-    <Button
-      variant="contained"
-      onClick={() => setEditing(true)}
-      disabled={deleting}
-      sx={{ flex: { xs: 1, sm: "initial" } }}
-    >
-      {t("tickets.edit")}
-    </Button>
+        <Box
+          sx={{
+            display: "flex",
+            gap: 1,
+            width: { xs: "100%", sm: "auto" },
+          }}
+        >
+          <Button
+            variant="contained"
+            onClick={() => setEditing(true)}
+            disabled={deleting}
+            sx={{ flex: { xs: 1, sm: "initial" } }}
+          >
+            {t("tickets.edit")}
+          </Button>
 
-    <Button
-      variant="outlined"
-      color="error"
-      onClick={handleDelete}
-      disabled={deleting}
-      sx={{ flex: { xs: 1, sm: "initial" } }}
-    >
-      {deleting ? t("tickets.deleting") : t("tickets.delete")}
-    </Button>
-  </Box>
-</Box>
+          <Button
+            variant="outlined"
+            color="error"
+            onClick={handleDelete}
+            disabled={deleting}
+            sx={{ flex: { xs: 1, sm: "initial" } }}
+          >
+            {deleting ? t("tickets.deleting") : t("tickets.delete")}
+          </Button>
+        </Box>
+      </Box>
 
       {editing ? (
         <Box>
