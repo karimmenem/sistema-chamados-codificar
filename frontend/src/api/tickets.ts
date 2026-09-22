@@ -55,3 +55,28 @@ export async function getSupportPeople(): Promise<SupportPerson[]> {
 
   return response.json();
 }
+
+export async function updateTicket(
+  id: number,
+  data: {
+    title: string;
+    description: string;
+    priority: Priority;
+    status: Ticket["status"];
+    assignedToId: number;
+  },
+): Promise<Ticket> {
+  const response = await fetch(`${API_URL}/tickets/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to update ticket.");
+  }
+
+  return response.json();
+}

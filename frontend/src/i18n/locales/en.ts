@@ -12,7 +12,11 @@ const en = {
       created: "Created",
       loadingError: "Failed to load tickets.",
       backToList: "Back to tickets",
-
+      edit: "Edit",
+      save: "Save",
+      saving: "Saving...",
+      cancel: "Cancel",
+      updateError: "Failed to update ticket.",
       createTitle: "Create ticket",
       create: "Create ticket",
 
