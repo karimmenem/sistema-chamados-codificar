@@ -1,4 +1,4 @@
-import type { Priority, Ticket } from "../types/ticket";
+import type { Priority, SupportPerson, Ticket } from "../types/ticket";
 
 const API_URL = "http://localhost:3000";
 
@@ -41,6 +41,16 @@ export async function createTicket(data: {
 
   if (!response.ok) {
     throw new Error("Failed to create ticket.");
+  }
+
+  return response.json();
+}
+
+export async function getSupportPeople(): Promise<SupportPerson[]> {
+  const response = await fetch(`${API_URL}/support-people`);
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch support people.");
   }
 
   return response.json();

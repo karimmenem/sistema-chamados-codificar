@@ -18,11 +18,16 @@ const pt = {
      },
       createError: "Não foi possível criar o chamado.",
       creating: "Criando...",
+      supportPeopleError: "Não foi possível carregar os responsáveis.",
+      assignment: {
+       automatic: "Atribuição automática",
+    },
       fields: {
-        title: "Títlo",
-        description: "Descrição",
-        priority: "Prioridade",
-     },
+      title: "Título",
+      description: "Descrição",
+      priority: "Prioridade",
+      responsible: "Responsável",
+   },
       statuses: {
         OPEN: "Aberto",
         IN_PROGRESS: "Em andamento",

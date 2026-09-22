@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import {
@@ -9,8 +9,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import type { Priority } from "../types/ticket";
-import { createTicket } from "../api/tickets";
+import type { Priority, SupportPerson } from "../types/ticket";
+import { createTicket, getSupportPeople } from "../api/tickets";
 
 function CreateTicket() {
   const { t } = useTranslation();
@@ -19,9 +19,26 @@ function CreateTicket() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState<Priority>("MEDIUM");
+
+  const [supportPeople, setSupportPeople] = useState<SupportPerson[]>([]);
+  const [assignment, setAssignment] = useState("automatic");
+
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
+  useEffect(() => {
+    async function loadSupportPeople() {
+      try {
+        const data = await getSupportPeople();
+        setSupportPeople(data);
+      } catch (error) {
+        console.error(error);
+        setError(t("tickets.supportPeopleError"));
+      }
+    }
+
+    loadSupportPeople();
+  }, [t]);
 
   async function handleSubmit() {
     if (!title.trim() || !description.trim()) {
@@ -37,7 +54,9 @@ function CreateTicket() {
         title: title.trim(),
         description: description.trim(),
         priority,
-        automaticAssignment: true,
+        ...(assignment === "automatic"
+          ? { automaticAssignment: true }
+          : { assignedToId: Number(assignment) }),
       });
 
       navigate("/");
@@ -85,7 +104,7 @@ function CreateTicket() {
         label={t("tickets.fields.priority")}
         value={priority}
         onChange={(event) => setPriority(event.target.value as Priority)}
-        sx={{ mb: 3 }}
+        sx={{ mb: 2 }}
       >
         <MenuItem value="LOW">
           {t("tickets.priorities.LOW")}
@@ -98,6 +117,25 @@ function CreateTicket() {
         <MenuItem value="HIGH">
           {t("tickets.priorities.HIGH")}
         </MenuItem>
+      </TextField>
+
+      <TextField
+        fullWidth
+        select
+        label={t("tickets.fields.responsible")}
+        value={assignment}
+        onChange={(event) => setAssignment(event.target.value)}
+        sx={{ mb: 3 }}
+      >
+        <MenuItem value="automatic">
+          {t("tickets.assignment.automatic")}
+        </MenuItem>
+
+        {supportPeople.map((person) => (
+          <MenuItem key={person.id} value={person.id}>
+            {person.name}
+          </MenuItem>
+        ))}
       </TextField>
 
       <Button
