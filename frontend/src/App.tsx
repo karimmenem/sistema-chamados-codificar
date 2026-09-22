@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TicketList from "./components/TicketList";
 import TicketDetails from "./components/TicketDetails";
+import CreateTicket from "./components/CreateTicket";
 import {
   AppBar,
   Box,
@@ -43,6 +44,7 @@ function App() {
         <Container maxWidth="lg" sx={{ py: 4 }}>
           <Routes>
             <Route path="/" element={<TicketList />} />
+            <Route path="/tickets/new" element={<CreateTicket />} />
             <Route path="/tickets/:id" element={<TicketDetails />} />
           </Routes>
         </Container>

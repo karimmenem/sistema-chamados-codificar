@@ -11,6 +11,18 @@ const pt = {
       created: "Criado em",
       loadingError: "Não foi possível carregar os chamados.",
       backToList: "Voltar para chamados",
+      createTitle: "Criar chamado",
+      create: "Criar chamado",
+      validation: {
+      required: "Título e descrição são obrigatórios.",
+     },
+      createError: "Não foi possível criar o chamado.",
+      creating: "Criando...",
+      fields: {
+        title: "Títlo",
+        description: "Descrição",
+        priority: "Prioridade",
+     },
       statuses: {
         OPEN: "Aberto",
         IN_PROGRESS: "Em andamento",
