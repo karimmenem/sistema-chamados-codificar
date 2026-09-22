@@ -85,7 +85,7 @@ function TicketList() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          mb: 2,
+          mb: 6,
         }}
       >
         <Typography variant="h5" component="h2">
@@ -120,48 +120,143 @@ function TicketList() {
         </TextField>
       </Box>
 
-      <TableContainer component={Paper}>
+      <TableContainer
+        component={Paper}
+        elevation={0}
+        sx={{
+          border: "1px solid",
+          borderColor: "divider",
+          borderRadius: 2,
+          overflow: "hidden",
+        }}
+      >
         <Table>
           <TableHead>
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>{t("tickets.title")}</TableCell>
-              <TableCell>{t("tickets.priority")}</TableCell>
-              <TableCell>{t("tickets.status")}</TableCell>
-              <TableCell>{t("tickets.responsible")}</TableCell>
-              <TableCell>{t("tickets.created")}</TableCell>
+            <TableRow
+              sx={{
+                backgroundColor: "rgba(139, 207, 63, 0.08)",
+              }}
+            >
+              <TableCell sx={{ fontWeight: 700 }}>ID</TableCell>
+              <TableCell sx={{ fontWeight: 700 }}>
+                {t("tickets.title")}
+              </TableCell>
+              <TableCell sx={{ fontWeight: 700 }}>
+                {t("tickets.priority")}
+              </TableCell>
+              <TableCell sx={{ fontWeight: 700 }}>
+                {t("tickets.status")}
+              </TableCell>
+              <TableCell sx={{ fontWeight: 700 }}>
+                {t("tickets.responsible")}
+              </TableCell>
+              <TableCell sx={{ fontWeight: 700 }}>
+                {t("tickets.created")}
+              </TableCell>
             </TableRow>
           </TableHead>
 
           <TableBody>
-            {filteredTickets.map((ticket) => (
-              <TableRow
-                key={ticket.id}
-                hover
-                onClick={() => navigate(`/tickets/${ticket.id}`)}
-                sx={{ cursor: "pointer" }}
-              >
-                <TableCell>{ticket.id}</TableCell>
-
-                <TableCell>
-                  <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                    {ticket.title}
+            {filteredTickets.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={6} align="center" sx={{ py: 6 }}>
+                  <Typography color="text.secondary">
+                    {t("tickets.noResults")}
                   </Typography>
                 </TableCell>
-
-                <TableCell>
-                  {t(`tickets.priorities.${ticket.priority}`)}
-                </TableCell>
-
-                <TableCell>{t(`tickets.statuses.${ticket.status}`)}</TableCell>
-
-                <TableCell>{ticket.assignedTo.name}</TableCell>
-
-                <TableCell>
-                  {new Date(ticket.createdAt).toLocaleString()}
-                </TableCell>
               </TableRow>
-            ))}
+            ) : (
+              filteredTickets.map((ticket) => (
+                <TableRow
+                  key={ticket.id}
+                  hover
+                  onClick={() => navigate(`/tickets/${ticket.id}`)}
+                  sx={{
+                    cursor: "pointer",
+                    transition: "background-color 0.15s ease",
+                    "&:hover": {
+                      backgroundColor: "rgba(139, 207, 63, 0.06)",
+                    },
+                  }}
+                >
+                  <TableCell>{ticket.id}</TableCell>
+
+                  <TableCell sx={{ py: 1.5 }}>
+                    <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                      {ticket.title}
+                    </Typography>
+                  </TableCell>
+
+                  <TableCell sx={{ py: 1.5 }}>
+                    <Box
+                      component="span"
+                      sx={{
+                        display: "inline-block",
+                        px: 1,
+                        py: 0.5,
+                        borderRadius: 1,
+                        fontSize: "0.8rem",
+                        fontWeight: 600,
+                        backgroundColor:
+                          ticket.priority === "HIGH"
+                            ? "#ffebee"
+                            : ticket.priority === "MEDIUM"
+                              ? "#fff8e1"
+                              : "#e8f5e9",
+                        color:
+                          ticket.priority === "HIGH"
+                            ? "#c62828"
+                            : ticket.priority === "MEDIUM"
+                              ? "#f57f17"
+                              : "#2e7d32",
+                      }}
+                    >
+                      {t(`tickets.priorities.${ticket.priority}`)}
+                    </Box>
+                  </TableCell>
+
+                  <TableCell sx={{ py: 1.5 }}>
+                    <Box
+                      component="span"
+                      sx={{
+                        display: "inline-block",
+                        px: 1,
+                        py: 0.5,
+                        borderRadius: 1,
+                        fontSize: "0.8rem",
+                        fontWeight: 600,
+                        backgroundColor:
+                          ticket.status === "OPEN"
+                            ? "#e3f2fd"
+                            : ticket.status === "IN_PROGRESS"
+                              ? "#fff8e1"
+                              : ticket.status === "RESOLVED"
+                                ? "#e8f5e9"
+                                : "#eeeeee",
+                        color:
+                          ticket.status === "OPEN"
+                            ? "#1565c0"
+                            : ticket.status === "IN_PROGRESS"
+                              ? "#f57f17"
+                              : ticket.status === "RESOLVED"
+                                ? "#2e7d32"
+                                : "#616161",
+                      }}
+                    >
+                      {t(`tickets.statuses.${ticket.status}`)}
+                    </Box>
+                  </TableCell>
+
+                  <TableCell sx={{ py: 1.5 }}>
+                    {ticket.assignedTo.name}
+                  </TableCell>
+
+                  <TableCell sx={{ py: 1.5 }}>
+                    {new Date(ticket.createdAt).toLocaleString()}
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
       </TableContainer>

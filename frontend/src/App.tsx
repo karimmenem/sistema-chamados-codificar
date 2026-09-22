@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import TicketList from "./components/TicketList";
 import TicketDetails from "./components/TicketDetails";
 import CreateTicket from "./components/CreateTicket";
@@ -22,20 +22,45 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Box sx={{ minHeight: "100vh", backgroundColor: "#f5f5f5" }}>
-        <AppBar position="static">
+      <Box sx={{ minHeight: "100vh", backgroundColor: "background.default" }}>
+        <AppBar position="static" elevation={0}>
           <Container maxWidth="lg">
             <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
-              <Typography variant="h6" component="div">
-                {t("app.title")}
-              </Typography>
+              <Link
+                to="/"
+                style={{
+                  color: "inherit",
+                  textDecoration: "none",
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  component="div"
+                  sx={{
+                    fontWeight: 700,
+                    cursor: "pointer",
+                  }}
+                >
+                  {t("app.title")}
+                </Typography>
+              </Link>
 
               <Button
-                color="inherit"
+                variant="outlined"
                 onClick={toggleLanguage}
-                sx={{ textTransform: "none" }}
+                sx={{
+                  color: "black",
+                  borderColor: "rgba(5, 4, 4, 0.6)",
+                  textTransform: "none",
+                  borderRadius: 2,
+                  minWidth: 100,
+                  "&:hover": {
+                    borderColor: "white",
+                    backgroundColor: "rgba(255, 255, 255, 0.08)",
+                  },
+                }}
               >
-                {i18n.language === "pt" ? "English" : "Português"}
+                {i18n.language === "pt" ? "🇺🇸 English" : "🇧🇷 Português"}
               </Button>
             </Toolbar>
           </Container>

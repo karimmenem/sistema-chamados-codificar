@@ -20,6 +20,7 @@ const pt = {
       deleteConfirmation: "Tem certeza de que deseja excluir este chamado?",
       search: "Buscar chamados",
       filterPriority: "Prioridade",
+      noResults: "Nenhum chamado encontrado.",
       all: "Todas",
       save: "Salvar",
       saving: "Salvando...",

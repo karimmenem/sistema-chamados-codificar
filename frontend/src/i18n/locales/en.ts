@@ -19,6 +19,7 @@ const en = {
       deleteConfirmation: "Are you sure you want to delete this ticket?",
       search: "Search tickets",
       filterPriority: "Priority",
+      noResults: "No tickets found.",
       all: "All",
       save: "Save",
       saving: "Saving...",
