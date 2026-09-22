@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import {
   Alert,
   CircularProgress,
@@ -17,6 +18,7 @@ import type { Ticket } from "../types/ticket";
 
 function TicketList() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [loading, setLoading] = useState(true);
@@ -67,7 +69,12 @@ function TicketList() {
 
           <TableBody>
             {tickets.map((ticket) => (
-              <TableRow key={ticket.id}>
+              <TableRow
+                key={ticket.id}
+                hover
+                onClick={() => navigate(`/tickets/${ticket.id}`)}
+                sx={{ cursor: "pointer" }}
+              >
                 <TableCell>{ticket.id}</TableCell>
 
                 <TableCell>

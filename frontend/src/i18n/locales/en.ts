@@ -10,6 +10,7 @@ const en = {
       responsible: "Responsible",
       created: "Created",
       loadingError: "Failed to load tickets.",
+      backToList: "Back to tickets",
       statuses: {
         OPEN: "Open",
         IN_PROGRESS: "In progress",

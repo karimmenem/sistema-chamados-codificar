@@ -10,6 +10,7 @@ const pt = {
       responsible: "Responsável",
       created: "Criado em",
       loadingError: "Não foi possível carregar os chamados.",
+      backToList: "Voltar para chamados",
       statuses: {
         OPEN: "Aberto",
         IN_PROGRESS: "Em andamento",
