@@ -16,6 +16,7 @@ import {
   MenuItem,
   Box,
   Button,
+  Pagination,
 } from "@mui/material";
 import { getTickets } from "../api/tickets";
 import type { Ticket } from "../types/ticket";
@@ -29,6 +30,9 @@ function TicketList() {
   const [priorityFilter, setPriorityFilter] = useState<
     Ticket["priority"] | "ALL"
   >("ALL");
+  const [page, setPage] = useState(1);
+
+  const ticketsPerPage = 10;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -47,6 +51,10 @@ function TicketList() {
 
     loadTickets();
   }, [t]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [search, priorityFilter]);
 
   const filteredTickets = tickets.filter((ticket) => {
     const searchTerm = search.toLowerCase();
@@ -69,6 +77,13 @@ function TicketList() {
 
     return matchesSearch && matchesPriority;
   });
+
+  const pageCount = Math.ceil(filteredTickets.length / ticketsPerPage);
+
+  const paginatedTickets = filteredTickets.slice(
+    (page - 1) * ticketsPerPage,
+    page * ticketsPerPage,
+  );
 
   if (loading) {
     return <CircularProgress />;
@@ -166,7 +181,7 @@ function TicketList() {
                 </TableCell>
               </TableRow>
             ) : (
-              filteredTickets.map((ticket) => (
+              paginatedTickets.map((ticket) => (
                 <TableRow
                   key={ticket.id}
                   hover
@@ -260,6 +275,23 @@ function TicketList() {
           </TableBody>
         </Table>
       </TableContainer>
+      {pageCount > 1 && (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            mt: 3,
+          }}
+        >
+          <Pagination
+            count={pageCount}
+            page={page}
+            onChange={(_, value) => setPage(value)}
+            color="primary"
+            shape="rounded"
+          />
+        </Box>
+      )}
     </div>
   );
 }

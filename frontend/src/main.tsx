@@ -4,7 +4,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import App from "./App.tsx";
 import "./index.css";
 import "./i18n";
-import theme from "./Theme.ts";
+import theme from "./theme";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

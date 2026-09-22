@@ -79,6 +79,15 @@ function CreateTicket() {
         borderRadius: 2,
       }}
     >
+      <Box sx={{ mb: 3 }}>
+        <Button
+          variant="outlined"
+          onClick={() => navigate("/")}
+          sx={{ whiteSpace: "nowrap" }}
+        >
+          {t("tickets.backToList")}
+        </Button>
+      </Box>
       <Typography
         variant="h5"
         component="h1"

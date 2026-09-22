@@ -1,7 +1,7 @@
 const pt = {
   translation: {
     app: {
-      title: "Chamados de Suporte",
+      title: "DeskFlow",
     },
     tickets: {
       title: "Chamados",

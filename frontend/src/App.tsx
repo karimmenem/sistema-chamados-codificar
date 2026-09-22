@@ -17,7 +17,9 @@ function App() {
 
   const toggleLanguage = () => {
     const newLanguage = i18n.language === "pt" ? "en" : "pt";
+
     i18n.changeLanguage(newLanguage);
+    localStorage.setItem("language", newLanguage);
   };
 
   return (
@@ -40,18 +42,37 @@ function App() {
                   textDecoration: "none",
                 }}
               >
-                <Typography
-                  variant="h6"
-                  component="div"
+                <Box
                   sx={{
-                    fontWeight: 700,
-                    cursor: "pointer",
-                    fontSize: { xs: "1.5rem", sm: "1.25rem" },
-                    whiteSpace: "nowrap",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
                   }}
                 >
-                  {t("app.title")}
-                </Typography>
+                  <Box
+                    sx={{
+                      width: 10,
+                      height: 10,
+                      borderRadius: "50%",
+                      backgroundColor: "primary.main",
+                      flexShrink: 0,
+                    }}
+                  />
+
+                  <Typography
+                    variant="h6"
+                    component="div"
+                    sx={{
+                      fontWeight: 800,
+                      cursor: "pointer",
+                      fontSize: { xs: "1.35rem", sm: "1.4rem" },
+                      letterSpacing: "-0.02em",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {t("app.title")}
+                  </Typography>
+                </Box>
               </Link>
 
               <Button
