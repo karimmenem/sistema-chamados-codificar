@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import TicketList from "./components/TicketList";
 import {
   AppBar,
   Box,
@@ -38,9 +39,7 @@ function App() {
       </AppBar>
 
       <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Typography variant="h4" component="h1">
-          {t("app.title")}
-        </Typography>
+        <TicketList />
       </Container>
     </Box>
   );
