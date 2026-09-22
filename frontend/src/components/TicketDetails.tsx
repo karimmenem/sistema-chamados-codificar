@@ -11,7 +11,12 @@ import {
   TextField,
   MenuItem,
 } from "@mui/material";
-import { getSupportPeople, getTicket, updateTicket } from "../api/tickets";
+import {
+  deleteTicket,
+  getSupportPeople,
+  getTicket,
+  updateTicket,
+} from "../api/tickets";
 import type { SupportPerson, Ticket } from "../types/ticket";
 
 function TicketDetails() {
@@ -28,6 +33,7 @@ function TicketDetails() {
   const [status, setStatus] = useState<Ticket["status"]>("OPEN");
   const [assignedToId, setAssignedToId] = useState(0);
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -83,6 +89,28 @@ function TicketDetails() {
     }
   }
 
+  async function handleDelete() {
+    if (!ticket) return;
+
+    const confirmed = window.confirm(t("tickets.deleteConfirmation"));
+
+    if (!confirmed) return;
+
+    try {
+      setDeleting(true);
+      setError("");
+
+      await deleteTicket(ticket.id);
+
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+      setError(t("tickets.deleteError"));
+    } finally {
+      setDeleting(false);
+    }
+  }
+
   function handleCancel() {
     if (!ticket) return;
 
@@ -109,8 +137,16 @@ function TicketDetails() {
           {t("tickets.backToList")}
         </Button>
 
-        <Button variant="contained" onClick={() => setEditing(true)}>
+        <Button
+          variant="contained"
+          onClick={() => setEditing(true)}
+          disabled={deleting}
+        >
           {t("tickets.edit")}
+        </Button>
+
+        <Button variant="outlined" onClick={handleDelete} disabled={deleting}>
+          {deleting ? t("tickets.deleting") : t("tickets.delete")}
         </Button>
       </Box>
 
@@ -188,11 +224,7 @@ function TicketDetails() {
               {saving ? t("tickets.saving") : t("tickets.save")}
             </Button>
 
-            <Button
-              variant="outlined"
-              onClick={handleCancel}
-              disabled={saving}
-            >
+            <Button variant="outlined" onClick={handleCancel} disabled={saving}>
               {t("tickets.cancel")}
             </Button>
           </Box>

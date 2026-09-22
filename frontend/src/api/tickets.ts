@@ -80,3 +80,13 @@ export async function updateTicket(
 
   return response.json();
 }
+
+export async function deleteTicket(id: number): Promise<void> {
+  const response = await fetch(`${API_URL}/tickets/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to delete ticket.");
+  }
+}
