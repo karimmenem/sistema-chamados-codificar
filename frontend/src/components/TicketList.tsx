@@ -12,6 +12,10 @@ import {
   TableHead,
   TableRow,
   Typography,
+  TextField,
+  MenuItem,
+  Box,
+  Button,
 } from "@mui/material";
 import { getTickets } from "../api/tickets";
 import type { Ticket } from "../types/ticket";
@@ -21,6 +25,10 @@ function TicketList() {
   const navigate = useNavigate();
 
   const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [search, setSearch] = useState("");
+  const [priorityFilter, setPriorityFilter] = useState<
+    Ticket["priority"] | "ALL"
+  >("ALL");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -40,6 +48,28 @@ function TicketList() {
     loadTickets();
   }, [t]);
 
+  const filteredTickets = tickets.filter((ticket) => {
+    const searchTerm = search.toLowerCase();
+
+    const title = ticket.title.toLowerCase();
+    const priority = ticket.priority.toLowerCase();
+    const translatedPriority = t(
+      `tickets.priorities.${ticket.priority}`,
+    ).toLowerCase();
+    const responsible = ticket.assignedTo.name.toLowerCase();
+
+    const matchesSearch =
+      title.includes(searchTerm) ||
+      priority.includes(searchTerm) ||
+      translatedPriority.includes(searchTerm) ||
+      responsible.includes(searchTerm);
+
+    const matchesPriority =
+      priorityFilter === "ALL" || ticket.priority === priorityFilter;
+
+    return matchesSearch && matchesPriority;
+  });
+
   if (loading) {
     return <CircularProgress />;
   }
@@ -50,9 +80,45 @@ function TicketList() {
 
   return (
     <div>
-      <Typography variant="h5" component="h2" sx={{ mb: 2 }}>
-        {t("tickets.title")}
-      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 2,
+        }}
+      >
+        <Typography variant="h5" component="h2">
+          {t("tickets.title")}
+        </Typography>
+
+        <Button variant="contained" onClick={() => navigate("/tickets/new")}>
+          {t("tickets.create")}
+        </Button>
+      </Box>
+      <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
+        <TextField
+          fullWidth
+          label={t("tickets.search")}
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
+        />
+
+        <TextField
+          select
+          label={t("tickets.filterPriority")}
+          value={priorityFilter}
+          onChange={(event) =>
+            setPriorityFilter(event.target.value as Ticket["priority"] | "ALL")
+          }
+          sx={{ minWidth: 180 }}
+        >
+          <MenuItem value="ALL">{t("tickets.all")}</MenuItem>
+          <MenuItem value="LOW">{t("tickets.priorities.LOW")}</MenuItem>
+          <MenuItem value="MEDIUM">{t("tickets.priorities.MEDIUM")}</MenuItem>
+          <MenuItem value="HIGH">{t("tickets.priorities.HIGH")}</MenuItem>
+        </TextField>
+      </Box>
 
       <TableContainer component={Paper}>
         <Table>
@@ -68,7 +134,7 @@ function TicketList() {
           </TableHead>
 
           <TableBody>
-            {tickets.map((ticket) => (
+            {filteredTickets.map((ticket) => (
               <TableRow
                 key={ticket.id}
                 hover
@@ -87,9 +153,7 @@ function TicketList() {
                   {t(`tickets.priorities.${ticket.priority}`)}
                 </TableCell>
 
-                <TableCell>
-                  {t(`tickets.statuses.${ticket.status}`)}
-                </TableCell>
+                <TableCell>{t(`tickets.statuses.${ticket.status}`)}</TableCell>
 
                 <TableCell>{ticket.assignedTo.name}</TableCell>
 
