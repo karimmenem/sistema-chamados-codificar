@@ -5,7 +5,7 @@ import ticketRoutes from "./routes/tickets.js";
 import supportPeopleRoutes from "./routes/supportPeople.js";
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -24,6 +24,6 @@ app.get("/health", async (_req, res) => {
 app.use("/tickets", ticketRoutes);
 app.use("/support-people", supportPeopleRoutes);
 
-app.listen(PORT, () => {
+app.listen(Number(PORT), "0.0.0.0", () => {
   console.log(`Server running on port ${PORT}`);
 });

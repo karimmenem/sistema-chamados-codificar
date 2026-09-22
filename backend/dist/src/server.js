@@ -9,7 +9,7 @@ const prisma_js_1 = require("./lib/prisma.js");
 const tickets_js_1 = __importDefault(require("./routes/tickets.js"));
 const supportPeople_js_1 = __importDefault(require("./routes/supportPeople.js"));
 const app = (0, express_1.default)();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.get("/health", async (_req, res) => {
@@ -24,6 +24,6 @@ app.get("/health", async (_req, res) => {
 });
 app.use("/tickets", tickets_js_1.default);
 app.use("/support-people", supportPeople_js_1.default);
-app.listen(PORT, () => {
+app.listen(Number(PORT), "0.0.0.0", () => {
     console.log(`Server running on port ${PORT}`);
 });

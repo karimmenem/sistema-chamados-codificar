@@ -1,6 +1,6 @@
 import type { Priority, SupportPerson, Ticket } from "../types/ticket";
 
-const API_URL = "http://localhost:3000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 export async function getTickets(): Promise<Ticket[]> {
   const response = await fetch(`${API_URL}/tickets`);
